@@ -28,8 +28,9 @@ const Checkout = () => {
     const description = `La Cocherita Pago: correo: ${customerEmail}, Cantidad: ${totalAmount}`
 
   useEffect(() => {
+    //http://localhost:4242
     // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:4242/create-payment-intent", {
+    fetch("https://lacocheritatest.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
