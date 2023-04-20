@@ -1,0 +1,17 @@
+import React from "react";
+import styles from "./Footer.module.css"
+
+const date = new Date();
+const year = date.getFullYear();
+
+const Footer = () => {
+    return <div className={styles.footer}>
+        &copy; {year} All Rights Reserved
+        <br/>
+        <br/>
+        <br/>
+        Hola
+    </div>;
+};
+
+export default Footer;
