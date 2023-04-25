@@ -30,7 +30,7 @@ const Checkout = () => {
   useEffect(() => {
     //http://localhost:4242
     // Create PaymentIntent as soon as the page loads
-    fetch("https://lacocheritatest.onrender.com/create-payment-intent", {
+    fetch("https://lacocheritaceti.herokuapp.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 

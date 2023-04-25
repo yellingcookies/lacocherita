@@ -17,6 +17,7 @@ const Home = () => {
         }; 
         scrollToProducts(); 
     }, [url])
+
     return <div>
         <Slider/>
         <Product/>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_PRICE_RANGE, selectProducts, STORE_PRODUCTS } from "../../redux/slice/productSlice";
 import spinnerImg from "../../assets/spinner.gif"
 import { FaCogs } from "react-icons/fa";
+
 const Product = () => {
     const {data, isLoading} = useFetchCollection("products");
     const [showFilter, setShowFilter] = useState(false)
@@ -33,7 +34,7 @@ const Product = () => {
         <div className={`container ${styles.product}`}>
             <aside className={showFilter ? `${styles.filter} ${styles.show}` : `${styles.filter}`}>
                 {isLoading ? null : <ProductFilter/>}
-            </aside>
+            </aside>0
             <div className={styles.content}>
                 {isLoading ? (
                 <img 

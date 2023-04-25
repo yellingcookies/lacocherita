@@ -79,7 +79,6 @@ const AddProducts = () => {
 
     const addProduct = (e) => {
         e.preventDefault();
-        //console.log(product);
         setIsLoading(true);
 
         try {
