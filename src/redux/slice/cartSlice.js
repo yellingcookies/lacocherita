@@ -12,21 +12,21 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        ADD_TO_CART(state, action){
-            //console.log(action.payload)
-            const productIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
-
+        ADD_TO_CART(state, action){ 
+            const { product, desc } = action.payload;
+            const productIndex = state.cartItems.findIndex((item) => item.id === product.id)
             if(productIndex >= 0){
                 //Item already exists in the cart
                 //Increase the cartQuantity
                 state.cartItems[productIndex].cartQuantity += 1
-                toast.info(`${action.payload.name} increased by one`, {position: "top-left"})
+                //toast.info(`${action.payload.name} increased by one`, {position: "top-left"})
+                toast.info(`${product.name} increased by one`, {position: "top-left"})
             }else {
                 //Item doesn't already exists in the cart
                 //Add item to the cart
-                const tempProduct = {...action.payload, cartQuantity: 1}
+                const tempProduct = {...product, cartQuantity: 1, desc}
                 state.cartItems.push(tempProduct)
-                toast.success(`${action.payload.name} added to cart`, {
+                toast.success(`${product.name} added to cart`, {
                     position: "top-left",
                 })
             }
@@ -34,7 +34,6 @@ const cartSlice = createSlice({
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
         DECREASE_CART(state, action){
-            console.log(action.payload)
             const productIndex = state.cartItems.findIndex((item) => item.id === action.payload.id)
 
             if(state.cartItems[productIndex].cartQuantity > 1){

@@ -1,5 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../../../firebase/config";
@@ -20,19 +20,32 @@ const ProductDetails = () => {
     const { document } = useFetchDocument("products", id)
     const { data } = useFetchCollection("reviews")
     const filteredReviews = data.filter((review) => review.productID === id)
-
+    //this.descr = React.createRef()
+    const descr = useRef(null)
     const cart = cartItems.find((cart) => cart.id === id)
+    var desc = ""
 
     const isCartAdded = cartItems.findIndex((cart) => {
         return cart.id === id
     })
+
+    const handleInputChange = (e) => {
+        const {value} = e.target;
+        desc = value;
+        //setProduct({...product, [name]: value});
+    };
 
     useEffect(() => {
         setProduct(document)
     }, [document]);
 
     const addToCart = (product) => {
-        dispatch(ADD_TO_CART(product))
+        console.log(desc)
+        //var txtDesc = document.getElementByid("descr")
+        //txtDesc.value=""
+        //this.descr.value=""
+        descr.current.value = ""
+        dispatch(ADD_TO_CART({ product, desc}))
         dispatch(CALCULATE_TOTAL_QUANTITY())
     };
 
@@ -45,9 +58,9 @@ const ProductDetails = () => {
     return (
         <section>
             <div className={`container ${styles.product}`}>
-                <h2>Product Details</h2>
+                <h2>Detalles del Producto</h2>
                 <div>
-                    <Link to="/#products">&larr; Back To Products</Link>
+                    <Link to="/#products">&larr; Regresar a Productos</Link>
                 </div>
                 {product === null ? (
                     <img src={spinnerImg} alt="Loading" style={{width: "50px"}}/>
@@ -65,8 +78,9 @@ const ProductDetails = () => {
                                     <b>SKU</b> {product.id}
                                 </p>
                                 <p>
-                                    <b>Brand</b> {product.brand}
+                                    <b>Horario</b> {product.brand}
                                 </p>
+                                <input type="text" placeholder="Descripción" name="description" onChange={(e) => handleInputChange(e)} ref={descr}/>
                                 <div className={styles.count}>
                                     {isCartAdded < 0 ? null : (
                                         <>
@@ -78,7 +92,7 @@ const ProductDetails = () => {
                                         </>
                                     )}
                                 </div>
-                                <button className="--btn --btn-danger" onClick={() => addToCart(product)}>ADD TO CART</button>
+                                <button className="--btn --btn-danger" onClick={() => addToCart(product)}>AGREGAR A CARRITO</button>
                             </div>
                         </div>
                     </>

@@ -26,6 +26,8 @@ import OrderHistory from "./pages/orderHistory/OrdersHistory";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
 import ReviewProducts from "./components/reviewProducts/ReviewProducts";
 import NotFound from "./pages/notFound/NotFound";
+import Stock from "./pages/Stock/Stock";
+import CartOrder from "./pages/cartprocess/CartOrder";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <Provider store={store}>
@@ -42,7 +44,8 @@ root.render(
            <Route path="/login" element={<Login/>} />
            <Route path="/register" element={<Register/>} />
            <Route path="/reset" element={<Reset/>} />
-           <Route path="/cart" element={<Cart/>} />
+           <Route path="/cart/:id" element={<Cart/>} />
+           <Route path="/cart-order/:id" element={<CartOrder/>}/>
            <Route path="/checkout-details" element={<CheckoutDetails/>} />
            <Route path="/checkout" element={<Checkout/>} />
            <Route path="/checkout-success" element={<CheckoutSuccess/>} />
@@ -50,6 +53,7 @@ root.render(
            <Route path="/inventario" element={<Inventario/>}/>
            <Route path="/product-details/:id" element={<ProductDetails/>}/>
            <Route path="/add" element={<Add/>}/>
+           <Route path="/stock" element={<Stock/>}/>
            <Route path="*" element={<NotFound/>}/>
          </Routes>
        <Footer/>

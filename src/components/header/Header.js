@@ -12,29 +12,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import {toast} from 'react-toastify';
 import {useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER } from "../../redux/slice/authSlice";
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectUserID } from "../../redux/slice/authSlice";
 import ShowOnLogin, { ShowOnLogout } from "../hiddenLink/hiddenLink";
 import AdminOnlyRoute, { AdminOnlyLink } from "../adminOnlyRoute/AdminOnlyRoute";
 import { CALCULATE_TOTAL_QUANTITY, selectCartTotalQuantity } from "../../redux/slice/cartSlice";
+import { Timestamp } from "firebase/firestore";
+import { STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
+import useFetchCollection from "../../customHooks/useFetchCollection";
 
 const logo = (
     <div className={styles.logo}>
         <Link to="/">
-        {/* <a> */}
             <h2>
               La<span>Cocherita</span>
             </h2>
-        {/* </a> */}
         </Link>
     </div>
 );
-
-// const cart = (
-//     <span className={styles.cart}>
-//     <Link to="/cart">Cart</Link>
-//     <FaShoppingCart size={20}/>
-//     </Link>
-// );
 
 const activeLink = ({isActive}) =>(isActive ? `${styles.active}` : "");
 
@@ -43,14 +37,23 @@ const Header = () => {
     const [displayName, setdisplayName] = useState("");
     const [scrollPage, setScrollPage] = useState(false)
     const cartTotalQuantity = useSelector(selectCartTotalQuantity)
+    const orders = useSelector(selectOrderHistory)
+    const {data, isLoading} = useFetchCollection("orders");
+    const userID = useSelector(selectUserID)
+
+    
+    const ActualOrders = orders.filter((order) => order.orderStatus === "Order Placed..." && order.userID === userID)
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(STORE_ORDERS(data)) 
+    }, [dispatch, data]);
 
     useEffect(() => {
         dispatch(CALCULATE_TOTAL_QUANTITY())
     }, [])
-
-    const navigate = useNavigate();
-
-    const dispatch = useDispatch();
 
     const fixNavbar = () => {
         if(window.scrollY > 50){
@@ -96,20 +99,26 @@ const Header = () => {
 
     const logoutUser = () => {
         signOut(auth).then(() => {
-            toast.success("Logout successfully.");
+            toast.success("Se cerró la sesión.");
             navigate("/");
           }).catch((error) => {
             toast.error(error.message);
           });
     };
 
-    const cart = (
-        <span className={styles.cart}>
-            <Link to="/cart">
-            Cart
-            <FaShoppingCart size={20}/> 
-            <p>{cartTotalQuantity}</p>
-            </Link>
+    const orderverification = () => {
+        if(ActualOrders.length>0){
+            const a = orders[0].id
+            navigate(`/cart/${a}`)
+        }
+    }
+
+    const cart = ( 
+        <span className={styles.cart} onClick={orderverification}>
+                <Link to="/cart/ADD">Carrito
+                <FaShoppingCart size={20}/> 
+                <p>{cartTotalQuantity}</p>
+                </Link>
         </span>
     );
 
@@ -137,14 +146,14 @@ const Header = () => {
                     <li>
                         <NavLink to="/" className={activeLink}>
                         {/* <a className={activeLink}> */}
-                            Home
+                            Inicio
                         {/* </a> */}
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/contact" className={activeLink}>
                         {/* <a  className={activeLink}> */}
-                            Contact Us
+                            Contactanos
                         {/* </a> */}
                         </NavLink>
                     </li>
@@ -152,7 +161,7 @@ const Header = () => {
                 <div className={styles["header-right"]} onClick={hideMenu}>
                     <span className={styles.links}>
                         <ShowOnLogout>
-                        <NavLink to="/login" className={activeLink}>Login</NavLink>
+                        <NavLink to="/login" className={activeLink}>Iniciar Sesión</NavLink>
                         </ShowOnLogout>
                         {/* <a className={activeLink}>
                             Login
@@ -160,20 +169,20 @@ const Header = () => {
                         <ShowOnLogin>
                         <a href="#home" style={{color: "#90EE90"}}>
                             <FaUserCircle size={16}/>
-                            Hi, {displayName}
+                            Hola, {displayName}
                         </a>
                         </ShowOnLogin>
                         {/* <a className={activeLink}>
                             Register
                         </a> */}
                         <ShowOnLogin>
-                        <NavLink to="/order-history" className={activeLink}>My Orders</NavLink>
+                        <NavLink to="/order-history" className={activeLink}>Mis Ordenes</NavLink>
                         </ShowOnLogin>
                         {/* <a className={activeLink}>
                             My Orders
                         </a> */}
                         <ShowOnLogin>
-                        <NavLink to="/" onClick={logoutUser}>LogOut</NavLink>
+                        <NavLink to="/" onClick={logoutUser}>Cerrar Sesión</NavLink>
                         </ShowOnLogin>
                     </span>
                     {cart}

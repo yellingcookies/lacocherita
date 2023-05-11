@@ -28,6 +28,7 @@
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.6",
     "stripe": "^11.17.0",
+    "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -17,15 +17,15 @@ const filterSlice = createSlice({
         SORT_PRODUCTS(state, action){
             const {products, sort} = action.payload
             let tempProducts = []
-            if(sort === "latest"){
+            if(sort === "Reciente"){
                 tempProducts = products;
             }
-            if(sort === "lowest-price"){
+            if(sort === "Precio más bajo"){
                 tempProducts = products.slice().sort((a,b) =>{
                     return a.price - b.price
                 });
             }
-            if(sort === "highest-price"){
+            if(sort === "Precio más alto"){
                 tempProducts = products.slice().sort((a,b) =>{
                     return b.price - a.price
                 });
@@ -45,7 +45,7 @@ const filterSlice = createSlice({
         FILTER_BY_CATEGORY(state, action){
             const {products, category} = action.payload
             let tempProducts = []
-            if(category === "All") {
+            if(category === "Todos") {
                 tempProducts = products
             }else{
                 tempProducts = products.filter((product) => product.category === category)
@@ -55,7 +55,7 @@ const filterSlice = createSlice({
         FILTER_BY_BRAND(state, action){
             const {products, brand} = action.payload
             let tempProducts = []
-            if(brand === "All") {
+            if(brand === "Todos") {
                 tempProducts = products
             }else{
                 tempProducts = products.filter((product) => product.brand === brand)

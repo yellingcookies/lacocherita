@@ -6,7 +6,6 @@ import "./Slider.css"
 const Slider = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideLenght = sliderData.length;
-    console.log(slideLenght);
 
     const autoScroll = true;
     let slideInterval;
@@ -54,7 +53,7 @@ const Slider = () => {
                                     <p>{desc}</p>
                                     <hr/>
                                     <a href="#product" className = "--btn --btn-primary">
-                                        Shop Now
+                                        Compre ahora
                                     </a>
                                 </div>
                             </>

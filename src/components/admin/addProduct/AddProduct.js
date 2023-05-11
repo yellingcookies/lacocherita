@@ -30,7 +30,6 @@ const AddProducts = () => {
     const {id} = useParams()
     const products = useSelector(selectProducts)  
     const productEdit = products.find((item) => item.id === id)
-    console.log(productEdit)
     
     const [product, setProduct] = useState(() => {
         const newState = detectForm(id, 
@@ -70,7 +69,7 @@ const AddProducts = () => {
   () => {
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       setProduct({...product, imageURL: downloadURL});
-      toast.success("Image uploaded successfully.");
+      toast.success("Imagen subida correctamente.");
     });
   }
 );
@@ -95,7 +94,7 @@ const AddProducts = () => {
               setUploadProgress(0);
               setProduct({...initialState});
 
-              toast.success("Product uploaded successfully.")
+              toast.success("Producto subido correctamente.")
               navigate("/admin/all-products");
         }catch(error){
             setIsLoading(false);
@@ -125,7 +124,7 @@ const AddProducts = () => {
               });
 
               setIsLoading(false);
-              toast.success("Product Edited Successfully")
+              toast.success("Producto Editado Correctamente")
               navigate("/admin/all-products")
         }catch(error){
             setIsLoading(false);
@@ -137,12 +136,12 @@ const AddProducts = () => {
         <>
         {isLoading && <Loader/>}
         <div className={styles.product}>
-            <h2>{detectForm(id, "Add New Product", "Edit Product")}</h2>
+            <h2>{detectForm(id, "Agregar Nuevo Producto", "Editar Producto")}</h2>
             <Card cardClass={styles.card}>
                 <form onSubmit={detectForm(id, addProduct, editProduct)}>
                 <label>Product name:</label>
-                <input type="text" placeholder="Product name" required name="name" value={product.name} onChange={(e) => handleInputChange(e)}/>
-                <label>Product image:</label>
+                <input type="text" placeholder="Nombre del producto" required name="name" value={product.name} onChange={(e) => handleInputChange(e)}/>
+                <label>Imagen del producto:</label>
                 <Card cardClass={styles.group}>
                     {uploadProgress === 0 ? null : (
                         <div className={styles.progress}>
@@ -153,18 +152,18 @@ const AddProducts = () => {
                     </div>
                     )}
                     {/* accept o acceot */}
-                    <input type="file" accept="image/*" placeholder="Product Image" name="image" onChange= {(e) => handleImageChange(e)}/>
+                    <input type="file" accept="image/*" placeholder="Imagen del producto" name="image" onChange= {(e) => handleImageChange(e)}/>
                         {product.imageURL === "" ? null : (
                             <input type="text"
                             placeholder="Image URL"  name="imageURL" value={product.imageURL} disabled/>
                         )}
                 </Card>
-                <label>Product Price:</label>
+                <label>Precio del Producto:</label>
                 <input type="number" placeholder="Product/Brand" required name="price" value={product.price} onChange={(e) => handleInputChange(e)}/>
-                <label>Product Category:</label>
+                <label>Categoría del Producto:</label>
                 <select required name="category" value={product.category} onChange={(e) => handleInputChange(e)}>
                     <option value="" disabled>
-                        -- chose product category --
+                        -- Elegír Categoría --
                     </option>
                     {categories.map((cat) =>{
                         return (
@@ -175,13 +174,13 @@ const AddProducts = () => {
                     })};
                     </select>
 
-                    <label>Product schedule:</label>
-                    <input type="text" placeholder="Schedule" required name="brand" value={product.brand} onChange={(e) => handleInputChange(e)}/>
+                    <label>Horario del Producto:</label>
+                    <input type="text" placeholder="Horario" required name="brand" value={product.brand} onChange={(e) => handleInputChange(e)}/>
 
-                    <label>Product Description</label>
+                    <label>Descripción del producto:</label>
                     <textarea required name="desc" value={product.desc} cols="30" rows="10" onChange={(e) => handleInputChange(e)}/>
 
-                    <button className="--btn --btn-primary">{detectForm(id, "Save Product", "Edit Product")}</button>
+                    <button className="--btn --btn-primary">{detectForm(id, "Guardar Producto", "Editar Producto")}</button>
                 </form>
             </Card>
         </div>

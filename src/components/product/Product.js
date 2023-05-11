@@ -34,12 +34,12 @@ const Product = () => {
         <div className={`container ${styles.product}`}>
             <aside className={showFilter ? `${styles.filter} ${styles.show}` : `${styles.filter}`}>
                 {isLoading ? null : <ProductFilter/>}
-            </aside>0
+            </aside>
             <div className={styles.content}>
                 {isLoading ? (
                 <img 
                 src={spinnerImg} 
-                alt="Loading..." 
+                alt="Cargando..." 
                 style={{width:"50px"}} 
                 className="--center-all"
                 />) : (

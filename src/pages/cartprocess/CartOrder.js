@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Cart.module.css"
+import React, { useEffect } from "react";
+import styles from "./CartOrder.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import { ADD_TO_CART, CALCULATE_SUBTOTAL, CALCULATE_TOTAL_QUANTITY, CLEAR_CART, DECREASE_CART, REMOVE_FROM_CART, SAVE_URL, selectCartItems, selectCartTotalAmount, selectCartTotalQuantity } from "../../redux/slice/cartSlice";
 import { FaTrashAlt } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../components/card/Card";
 import { selectEmail, selectIsLoggedIn, selectUserID } from "../../redux/slice/authSlice";
-import { Timestamp, addDoc, arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { selectOrderHistory } from "../../redux/slice/orderSlice";
 
-const initialState = {
-    userID: "",
-    userEmail: "",
-    orderDate: "",
-    orderTime: "",
-    orderAmount: 0,
-    orderStatus: "",
-    cartItems: "",
-    createdAt: ""
-}
-
-const Cart = () => {
-    const {id} = useParams()
+const CartOrder = () => {
     const userID = useSelector(selectUserID)
     const userEmail = useSelector(selectEmail)
     const cartItems = useSelector(selectCartItems)
@@ -33,27 +21,8 @@ const Cart = () => {
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const orders = useSelector(selectOrderHistory)
     const navigate = useNavigate()
-    const orderEdit = orders.find((item) => item.id === id)
-    console.log(id)
-
-    const [order, setOrder] = useState(() => {
-        const newState = detectForm(id, 
-            { ...initialState},
-            orderEdit)
-            return newState
-    })
-
-    function detectForm(id, f1, f2) {
-        if(id==="ADD"){
-            return f1;
-        }
-        else{
-            return f2
-        }
-    }
 
     const increaseCart = (cart) => {
-        console.log(cart)
         dispatch(ADD_TO_CART(cart))
     };
     const decreaseCart = (cart) => {
@@ -97,32 +66,12 @@ const Cart = () => {
             orderAmount: cartTotalAmount,
             orderStatus: "Order Placed...",
             cartItems,
-            edit: "Pedro",
             createdAt: Timestamp.now().toDate()
         }
         try {
             addDoc(collection(db, "orders"), orderConfig);
             dispatch(CLEAR_CART())
             toast.success("Orden Guardada")
-            const a = orders[0].id
-            navigate(`/order-history/${a}`)
-        }catch(error){
-            toast.error(error.message)
-        }
-      }
-
-      const editOrder = () => {
-        
-        try {
-            //setDoc(doc(db, "orders", id), orderConfig)
-            //addDoc(collection(db, "orders"), orderConfig);
-            toast.success("Entró")
-            updateDoc(doc(db, "orders", id), {
-                orderAmount: order.orderAmount + cartTotalAmount,
-                cartItems: arrayUnion(...cartItems)
-            })
-            dispatch(CLEAR_CART())
-            toast.success("Orden Actualizada")
             const a = orders[0].id
             navigate(`/order-details/${a}`)
         }catch(error){
@@ -132,13 +81,13 @@ const Cart = () => {
 
     return <section>
         <div className={`container ${styles.table}`}>
-            <h2>Carrito de Compras</h2>
+            <h2>Shopping Cart</h2>
             {cartItems.length === 0 ? (
                 <>
-                    <p>Tu carrito está vacio.</p>
+                    <p>Your cart is currently empty.</p>
                     <br/>
                     <div>
-                        <Link to="/#products">&larr; Continuar comprando</Link>
+                        <Link to="/#products">&larr; Continue shopping</Link>
                     </div>
                 </>
             ) : (
@@ -147,16 +96,16 @@ const Cart = () => {
                     <thead>
                         <tr>
                             <th>s/n</th>
-                            <th>Productos</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Total</th>
-                            <th>Acción</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {cartItems.map((cart, index) =>{
-                            const {id, name, price, imageURL, cartQuantity, desc} = cart;
+                            const {id, name, price, imageURL, cartQuantity} = cart;
                             return (
                                 <tr key={id}>
                                     <td>{index + 1}</td>
@@ -171,12 +120,9 @@ const Cart = () => {
                                         <div className={styles.count}>
                                             <button className="--btn" onClick={() => decreaseCart(cart)}>-</button>
                                             <p>
-                                                <b>{cartQuantity}{desc}</b>
+                                                <b>{cartQuantity}</b>
                                             </p>
-                                            <Link to={`/product-details/${id}`}>
-                                                {/* <button className="--btn" onClick={() => increaseCart(cart)}>+</button> */}
-                                                <button className="--btn">+</button>
-                                            </Link>
+                                            <button className="--btn" onClick={() => increaseCart(cart)}>+</button>
                                         </div>
                                     </td>
                                     <td>
@@ -191,21 +137,21 @@ const Cart = () => {
                     </tbody>
                 </table>
                 <div className={styles.summary}>
-                    <button className="--btn --btn-danger" onClick={clearCart}>Limpiar Carrito</button>
+                    <button className="--btn --btn-danger" onClick={clearCart}>Clear Cart</button>
                     <div className={styles.checkout}>
                         <div>
-                            <Link to="/#products">&larr; Continuar comprando</Link>
+                            <Link to="/#products">&larr; Continue Shoppping</Link>
                         </div>
                         <br/>
                             <Card cardClass={styles.card}>
-                                <p><b>{`Producto(s) en carrito: ${cartTotalQuantity}`}</b></p>
+                                <p><b>{`Cart item(s): ${cartTotalQuantity}`}</b></p>
                                 <div className={styles.text}>
                                     <h4>Subtotal:</h4>
                                     <h3>{`$${cartTotalAmount.toFixed(2)}`}</h3>
                                 </div>
-                                {/* <p>Taxes and shipping calculated at checkout</p> */}
-                                <button className="--btn --btn-primary --btn-block" onClick={checkout}>Pedir a Domicilio</button>
-                                <button className="--btn --btn-danger" onClick={detectForm(id, saveOrder, editOrder)}>Pedir en restaurante</button>
+                                <p>Taxes and shipping calculated at checkout</p>
+                                <button className="--btn --btn-primary --btn-block" onClick={checkout}>Checkout</button>
+                                <button className="--btn --btn-danger" onClick={() => saveOrder()}>Guardar</button>
                             </Card>
                     </div>
                 </div>
@@ -215,4 +161,4 @@ const Cart = () => {
     </section>
 };
 
-export default Cart;
+export default CartOrder;

@@ -11,7 +11,7 @@ import Pagination from "../../pagination/Pagination";
 const ProductList = ({products}) => {
     const  [grid, setGrid] = useState(true)
     const  [search, setSearch] = useState("")
-    const  [sort, setSort] = useState("latest")
+    const  [sort, setSort] = useState("Reciente")
     const filteredProducts = useSelector(selectFilteredProducts)
 
     // Pagination states
@@ -40,7 +40,7 @@ const ProductList = ({products}) => {
                     <BsFillGridFill size={22} color="orangered" onClick={() => setGrid(true)}/>
                     <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)}/>
                     <p>
-                        <b>{filteredProducts.length}</b> Products found.
+                        <b>{filteredProducts.length}</b> Productos encontrados.
                     </p>
                 </div>
                 {/* Search Icon */}
@@ -49,11 +49,11 @@ const ProductList = ({products}) => {
                 </div>
                 {/* Sort Products */}
                 <div className={styles.sort}>
-                    <label>Sort by:</label>
+                    <label>Sorteados por:</label>
                     <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                        <option value="latest">Latest</option>
-                        <option value="lowest-price">Lowest Price</option>
-                        <option value="highest-price">Highest Price</option>
+                        <option value="Reciente">Reciente</option>
+                        <option value="Precio más bajo">Precio más bajo</option>
+                        <option value="Precio más alto">Precio más alto</option>
                         <option value="a-z">A - Z</option>
                         <option value="z-a">Z - A</option>
                     </select>
@@ -62,7 +62,7 @@ const ProductList = ({products}) => {
 
             <div className={grid ? `${styles.grid}` : `${styles.list}`}>
                 {products.length === 0 ? (
-                    <p>No product found.</p>
+                    <p>No se encontraron productos.</p>
                 ) : (
                     <>
                         {currentProducts.map((product) =>{

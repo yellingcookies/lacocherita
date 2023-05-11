@@ -25,7 +25,7 @@ const ChangeOrderStatus = ({order, id}) => {
             orderAmount: order.orderAmount,
             orderStatus: status,
             cartItems: order.cartItems,
-            shippingAddress: order.shippingAddress,
+            //shippingAddress: order.shippingAddress,
             createdAt: order.createdAt,
             editedAt: Timestamp.now().toDate(),
         }
@@ -49,7 +49,7 @@ const ChangeOrderStatus = ({order, id}) => {
                     <span>
                         <select value={status} onChange={(e) => setStatus(e.target.value)}>
                             <option value="" disabled>-- Elija uno --</option>
-                            <option value="Orden Placed...">Orden Realizada...</option>
+                            <option value="Order Placed...">Orden Realizada...</option>
                             <option value="Processing...">Procesando...</option>
                             <option value="Shipped...">Enviada...</option>
                             <option value="Delivered">Entregada...</option>

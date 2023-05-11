@@ -31,7 +31,7 @@ const OrderDetails = () => {
                     <p>
                         <b>Total de la orden</b> ${order.orderAmount}
                     </p>
-                    <p>
+                    {/*<p>
                         <b>Dirección de envío</b>
                         <br/>
                         Address: {order.shippingAddress.line1},
@@ -40,7 +40,7 @@ const OrderDetails = () => {
                         State: {order.shippingAddress.state}
                         <br/>
                         Country: {order.shippingAddress.country}
-                    </p>
+                    </p>*/}
                     <br/>
                     <table>
                         <thead>

@@ -44,10 +44,10 @@ const ViewProducts = () => {
 
     const confirmDelete = (id, imageURL) => {
         Notiflix.Confirm.show(
-            'Delete Product!!',
-            'You are about to delete this product',
-            'Delete',
-            'Cancel',
+            'Borrar Producto!!',
+            'Estás a punto de borrar este producto',
+            'Borrar',
+            'Cancelar',
             function okCb() {
               deleteProduct(id, imageURL)
             },
@@ -71,7 +71,7 @@ const ViewProducts = () => {
 
             const storageRef = ref(storage, imageURL);
             await deleteObject(storageRef)
-            toast.success("Product deleted succesfully.")
+            toast.success("Producto borrado correctamente.")
         }catch(error){
             toast.error(error.message)
         }
@@ -80,26 +80,26 @@ const ViewProducts = () => {
         <>
         {isLoading && <Loader/>}
         <div className={styles.table}>
-            <h2>All Products</h2>
+            <h2>Todos los productos</h2>
 
             <div className={styles.search}>
                 <p>
-                    <b>{filteredProducts.length}</b> products found
+                    <b>{filteredProducts.length}</b> productos encontrados
                 </p>
                 <Search value={search} onChange={(e) => setSearch(e.target.value)}/>
             </div>
             {filteredProducts.length === 0 ? (
-                <p>No product found.</p>
+                <p>No se encontraron productos.</p>
             ) : (
                 <table>
                     <thead>
                     <tr>
                         <th>s/n</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Actions</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>

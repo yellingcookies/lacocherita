@@ -1,17 +1,14 @@
-import React from "react";
-import styles from "./auth.module.css";
-import registerImg from "../../assets/register.png";
-import {Link} from "react-router-dom";
-import Card from "../../components/card/Card";
-import { useState } from "react";
-import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer, toast} from 'react-toastify';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
-import Loader from "../../components/loader/Loader";
-import {useNavigate} from "react-router-dom";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { auth } from '../../../firebase/config';
+import Loader from '../../loader/Loader';
+import Card from '../../card/Card';
+import registerImg from "../../../assets/register.png";
+import styles from "./RegisterAdmin.module.css";
 
-const Register = () => {
+function RegisterAdmin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cpassword, seCPassword] = useState("");
@@ -49,13 +46,13 @@ const Register = () => {
         <section className={`container ${styles.auth}`}>
         <Card>
         <div className={styles.form}>
-            <h2>Registrarse</h2>
+            <h2>Registrar Trabajadores</h2>
             <form onSubmit={registerUser}>
                 <input type="text" placeholder="Correo" required 
                 value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" placeholder="Contraseña" required
                 value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <input type="password" placeholder="Confirmar contraseña" required
+                <input type="password" placeholder="Confirmar Contraseña" required
                 value={cpassword} onChange={(e) => seCPassword(e.target.value)}/>
                 <button type="submit" className="--btn --btn-primary --btn-block">Registrarse</button>
             </form>
@@ -70,7 +67,7 @@ const Register = () => {
         </div>
     </section>
     </>
-    );    
-};
+  )
+}
 
-export default Register;
+export default RegisterAdmin

@@ -26,7 +26,6 @@ const ProductItem = ({product, grid, id, name, price, desc, imageURL}) => {
             <div className={styles.img}>
                 <img src={imageURL} alt={name}/>
             </div>
-        </Link>
         <div className={styles.content}>
             <div className={styles.details}>
                 <p>{`$${price}`}</p>
@@ -34,8 +33,10 @@ const ProductItem = ({product, grid, id, name, price, desc, imageURL}) => {
             </div>
             {!grid && <p className={styles.desc}>{shortenText(desc, 200)}</p>}
 
-            <button className="--btn --btn-danger" onClick={() => addToCart(product)}>Add To Cart</button>
+            {/* <button className="--btn --btn-danger" onClick={() => addToCart(product)}>Add To Cart</button> */}
+            <button className="--btn --btn-danger">Agregar a carrito</button>
         </div>
+        </Link>
     </Card>
     );
 }
