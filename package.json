@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^5.0.3",
+    "@capacitor/cli": "^5.0.3",
+    "@capacitor/core": "^5.0.3",
+    "@capacitor/ios": "^5.0.3",
     "@emailjs/browser": "^3.11.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@stripe/react-stripe-js": "^2.1.0",
@@ -27,9 +31,15 @@
     "react-star-rate": "^0.2.0",
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.6",
+    "serve": "^14.2.0",
     "stripe": "^11.17.0",
     "styled-components": "^5.3.10",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "workbox-core": "^6.5.4",
+    "workbox-expiration": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4"
   },
   "scripts": {
     "start:frontend": "react-scripts start",

@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const path = require("path")
-
 if(process.env.NODE_ENV === "production"){
     app.use(express.static("build"))
     app.get("*", (req, res) =>{

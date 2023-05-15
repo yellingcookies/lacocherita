@@ -10,14 +10,6 @@ function App() {
     <div className="container">
       <h1>todo ok</h1>
     </div>
-    // <BrowserRouter>
-    //   <Header />
-    //     <Routes>
-    //       <Route path="/" element={<Home />} />
-    //       <Route path="/contact" element={<Contact />} />
-    //     </Routes>
-    //   <Footer />
-    // </BrowserRouter>
   );
 }
 

@@ -1,6 +1,10 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "background_color": "#ffffff",
+  "categories": [ "food", "shopping"],
+  "description": "Sitio web para el restaurante La Cocherita.",
+  "dir": "ltr",
+  "display_override": ["standalone", "fullscreen"],
+  "display": "standalone",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +22,11 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "lang": "es-MX",
+  "name": "La Cocherita",
+  "orientation": "portrait",
+  "prefer_related_application": "false",
+  "scope": "/",
+  "start_url": "/",
+  "theme_color": "#90EE90"
 }
