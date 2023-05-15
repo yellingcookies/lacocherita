@@ -45,6 +45,7 @@ const Footer = () => {
         <br/>
         <br/>
         {isReadyForInstall && <button onClick={downloadApp}>Descargar</button>}
+        Holaaa
     </div>;
 };
 
