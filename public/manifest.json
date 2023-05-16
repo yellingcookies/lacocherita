@@ -24,7 +24,7 @@
   ],
   "lang": "es-MX",
   "name": "La Cocherita",
-  "orientation": "portrait",
+  "orientation": "any",
   "prefer_related_application": "false",
   "scope": "/",
   "start_url": "/",

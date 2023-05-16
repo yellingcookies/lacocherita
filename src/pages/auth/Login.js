@@ -37,7 +37,7 @@ const Login = () => {
         .then((userCredential) => {
             // const user = userCredential.user;
             setIsLoading(false);
-            toast.success("Login Successful...")
+            toast.success("Inicio de sesión completado...")
             redirectUser()
         }) 
         .catch((error) => {
@@ -53,7 +53,7 @@ const Login = () => {
         signInWithPopup(auth, provider)
   .then((result) => {
     // const user = result.user;
-    toast.success("Login Succesfully");
+    toast.success("Inicio de sesión completado");
     redirectUser()
   }).catch((error) => {
     toast.error(error.message);
@@ -70,22 +70,22 @@ const Login = () => {
 
         <Card>
         <div className={styles.form}>
-            <h2>Login</h2>
+            <h2>Iniciar Sesión</h2>
             <form onSubmit={loginUser}>
-                <input type="text" placeholder="Email" required
+                <input type="text" placeholder="Correo" required
                 value={email} onChange={(e) => setEmail(e.target.value)}/>
-                <input type="password" placeholder="Password" required
+                <input type="password" placeholder="Contraseña" required
                 value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <button button="submit" className="--btn --btn-primary --btn-block">Login</button>
+                <button button="submit" className="--btn --btn-primary --btn-block">Iniciar Sesión</button>
                 <div className={styles.links}>
-                    <Link to="/reset">Reset Password</Link>
+                    <Link to="/reset">¿Olvidaste tu contraseña?</Link>
                 </div>
-            <p>-- or --</p>
+            <p>-- o --</p>
             </form>
-            <button className="--btn --btn-danger --btn-block" onClick={signInWithGoogle}><FaGoogle color="#fff"/> Login With Google</button>
+            <button className="--btn --btn-danger --btn-block" onClick={signInWithGoogle}><FaGoogle color="#fff"/> Iniciar con Google</button>
             <span className={styles.register}>
-                <p>Don't have an account?</p>
-                <Link to="/register">Register</Link>
+                <p>¿No tienes una cuenta?</p>
+                <Link to="/register">Registrarse</Link>
             </span>
         </div>
         </Card>

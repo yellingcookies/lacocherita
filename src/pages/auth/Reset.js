@@ -20,7 +20,7 @@ const Reset = () => {
 
         sendPasswordResetEmail(auth, email).then(() =>{
             setIsLoading(false);
-            toast.success("Check you email for reset link");
+            toast.success("Revisa tu correo para el link de restablecimiento");
         }).catch((error) => {
             setIsLoading(false);
             toast.error("error.message");
@@ -36,17 +36,17 @@ const Reset = () => {
         </div>
         <Card>
         <div className={styles.form}>
-            <h2>Reset Passworrd</h2>
+            <h2>Restablecer Contraseña</h2>
             <form onSubmit={resetPassword}>
-                <input type="text" placeholder="Email" required
+                <input type="text" placeholder="Correo" required
                  value={email} onChange={(e) => setEmail(e.target.value)}/>
-                <button tyle="submit" className="--btn --btn-primary --btn-block">Reset Password</button>
+                <button tyle="submit" className="--btn --btn-primary --btn-block">Restablecer Contraseña</button>
                 <div className={styles.links}>
                     <p>
-                        <Link to="/login">- Login</Link>
+                        <Link to="/login">- Iniciar Sesión</Link>
                     </p>
                     <p>
-                        <Link to="/register">- Register</Link>
+                        <Link to="/register">- Registrarse</Link>
                     </p>
                 </div>
             </form>
