@@ -28,7 +28,7 @@ import ReviewProducts from "./components/reviewProducts/ReviewProducts";
 import NotFound from "./pages/notFound/NotFound";
 import Stock from "./pages/Stock/Stock";
 import CartOrder from "./pages/cartprocess/CartOrder";
-import * as serviceWorkerRegistration from "./components/serviceWorkerRegistration";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

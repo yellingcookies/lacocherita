@@ -68,6 +68,7 @@
     ]
   },
   "devDependencies": {
-    "@redux-devtools/core": "^3.13.1"
+    "@redux-devtools/core": "^3.13.1",
+    "gh-pages": "^5.0.0"
   }
 }
