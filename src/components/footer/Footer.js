@@ -44,34 +44,28 @@ const Footer = () => {
 
       return <div className={styles.footer}>
 
-      <div className="footer">
-      <div className="footer-row">
-      <div className="footer-links">
-        <br/>
-        <h4>Compañia</h4>
-        <ul>
-          <li><a href="/contact">Contactanos</a></li>
-          <li><a href="/help">Ayuda</a></li>
-        </ul>
-      </div>
-      <div className="social-links">
-        <h4>Siguenos</h4>
-        <ul>
-          <li><AiFillFacebook size={28}/></li>
-           <li><SiInstagram size={28}/></li>
-            <li><SiWhatsapp size={28}/></li>   
-        </ul>     
-    </div>
-    </div>
 
+<div className={styles.footercounter}>
+        <h3>Sobre Nosotros</h3>
         <br/>
+        <p>Somos una cafeteria ecepcional con el objetivo de brindarle a nuestros comensales la mejor calidad en todos nuestros productos</p>
         <br/>
-              <br/>
-        &copy; {year} All Rights Reserved
-        La Cocherita 2023
-        <br/>
-        {isReadyForInstall && <button onClick={downloadApp}>Descargar</button>}
+        <ul className={styles.socials}>
+        <li><AiFillFacebook size={28}/></li>
+           <li><SiInstagram size={28}/></li>
+            <li><SiWhatsapp size={28}/></li> 
+            <li><a href="/contact">Contactanos</a></li>
+          <li><a href="/help">Ayuda</a></li> 
+        </ul>
+        <div className={styles.footerbottom}>
+        <p>Restaurant Plus  &copy; {year} All Rights Reserved</p>
+        {isReadyForInstall && <center><button className="--btn --btn-primary" onClick={downloadApp}>Descargar aplicación móvil</button></center>}
+        
     </div>
+    </div>
+   
+
+        
     </div>;
 };
 
