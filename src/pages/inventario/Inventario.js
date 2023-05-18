@@ -1,62 +1,30 @@
-import { addDoc, collection, deleteDoc, doc, setDoc, Timestamp } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
-import Notiflix from "notiflix";
-import { useEffect, useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { deleteDoc, doc } from "firebase/firestore";
 import useFetchCollection from "../../customHooks/useFetchCollection";
+import styles from "./Inventario.module.css"
 import { db, storage } from "../../firebase/config";
-import { selectProducts, STORE_PRODUCTS } from "../../redux/slice/productSlice";
+import { deleteObject, ref } from "firebase/storage";
+import { toast } from "react-toastify";
+import Notiflix from "notiflix";
+import Loader from "../../components/loader/Loader";
+import { useEffect, useState } from "react";
 
 const initialState = {
-    proveedor: "",
-    alimento: "",
-    unidad: "",
-    cantidad: "",
+    producto: "",
+    createdAt: "",
 }
 
 const Inventario = () => {
-    const {id} = useParams()
-    const [insertar, setInsertar] = useState(false);
-    const [editar, setEditar] = useState(false);
-    const {data} = useFetchCollection("stock");
-    const products = useSelector(selectProducts)
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(
-            STORE_PRODUCTS({
-                products: data,
-            })
-        );        
-    }, [dispatch, data]);
+    //const [product, setProduct] = useState({...initialState})
+    const [formData, setFormData] = useState([]);
+    const {data, isLoading} = useFetchCollection("ingredientes");
+    console.log(data)
 
-
-    const productEdit = products.find((item) => item.id === id)
-
-    const [product, setProduct] = useState(() => {
-        const newState = detectForm(id, 
-            { ...initialState},
-            productEdit)
-            return newState
-    })
-
-    function detectForm(id, f1, f2) {
-        if(id==="ADD"){
-            return f1;
-        }
-        return f2
-    }
-    
-
-    const confirmDelete = (id) => {
+    const confirmDelete = (id, imageURL) => {
         Notiflix.Confirm.show(
-            'Delete Product!!',
-            'You are about to delete this product',
-            'Delete',
-            'Cancel',
+            'Borrar Producto!!',
+            'Estás a punto de borrar este producto',
+            'Borrar',
+            'Cancelar',
             function okCb() {
               deleteProduct(id)
             },
@@ -76,175 +44,59 @@ const Inventario = () => {
 
     const deleteProduct = async(id) => {
         try{
-            await deleteDoc(doc(db, "stock", id));
-            const storageRef = ref(storage);
-            await deleteObject(storageRef)
-            toast.success("Product deleted succesfully.")
+            await deleteDoc(doc(db, "products", id));
+            toast.success("Producto borrado correctamente.")
         }catch(error){
             toast.error(error.message)
         }
     }
-
+    const hola = "producto";
     const handleInputChange = (e) => {
         const {name, value} = e.target;
-        setProduct({...product, [name]: value});
+        // name = value;
+        // console.log(product.producto)
+        // setProduct({[`${hola}`]: value});
+        // console.log(product.producto)
     };
-    
-    const addProduct = (e) => {
-        e.preventDefault();
-        try {
-            const docRef = addDoc(collection(db, "stock"), {
-                proveedor: product.proveedor,
-                alimento: product.alimento,
-                unidad: Number(product.unidad),
-                cantidad: product.cantidad,
-                createdAt: Timestamp.now().toDate(),
-              });
-              setProduct({...initialState});
-
-              toast.success("Product uploaded successfully.")
-        }catch(error){
-            toast.error(error.message)
-        }
-    }
-
-
-    const editProduct = (e) => {
-        e.preventDefault();
-
-        try {
-
-            setDoc(doc(db, "stock", id), {
-                proveedor: product.proveedor,
-                alimento: product.alimento,
-                unidad: Number(product.unidad),
-                cantidad: product.cantidad,
-                createdAt: productEdit.createdAt,
-                editedAt: Timestamp.now().toDate(),
-              });
-              toast.success("Product Edited Successfully")
-        }catch(error){
-            toast.error(error.message);
-        }
-    }
 
     return(
         <>
-        <h2>{detectForm(id, "Add New Product", "Edit Product")}</h2>
-        <button className="btn btn-success" onClick={()=>
-            setInsertar(true)
-            }>Insertar</button>
-        <br />
-        {/* Saber si hay elementos en la tabla */}
-        {products.length === 0 ? (
-            <p>No product found.</p>
-        ) : (
-            <table border="1">
+        {isLoading && <Loader/>}
+        <h2>Inventario</h2>
+        <div className={styles.table}>
+            <table>
                 <thead>
+                    
                     <tr>
-                        <th>Num</th>
-                        <th>Proveedor</th>
-                        <th>Alimentos</th>
-                        <th>Unidad</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
+                        <th>id</th>
+                        <th>producto</th>
                     </tr>
                 </thead>
                 <tbody>
-            {products.map((product, index) =>{
-                return (
-                    <tr key={product.id}>
-                        <td>
-                            {index + 1}
-                        </td>
-                        <td>
-                            {product.proveedor}
-                        </td>
-                        <td>
-                            {product.alimento}
-                        </td>
-                        <td>
-                            {product.unidad}
-                        </td>
-                        <td>
-                            {product.cantidad}
-                        </td>
-                        <td>
-                            <FaEdit size={20} color="green" onClick={()=> setEditar(true)}/>
-                            &nbsp;
-                            <FaTrashAlt size={18} color="red" onClick={() => confirmDelete(product.id)}/>
-                        </td>
+                    {data.map((ingrediente, index) =>{
+                        {console.log("Hola")}
+                        const {id, producto} = ingrediente;
+                        return(
+                            <tr key={id}>
+                                <form>
+                                <td><input type="text" name="id" value={index + 1} onChange={(e) => handleInputChange(e)} readOnly/></td>  
+                                </form>
+                                <td><input type="text" name="producto" placeholder={producto} onChange={(e) => handleInputChange(e)}/></td>  
+                                <td><input type="submit"/></td>
+                            </tr>
+                            
+                        )
+                    })}
+                    <form>
+                    <tr>
+                        <td>aa</td>
+                        <td>s</td>
+                        <td></td>
                     </tr>
-                )
-            })}
-            </tbody>
+                    </form>
+                </tbody>
             </table>
-        )}
-        
-        <Modal isOpen={insertar===true}>
-        <ModalHeader>Insertar Registro</ModalHeader>
-        <form onSubmit={addProduct}>
-        <ModalBody>
-            <div className="form-group">
-            <label>Proveedor: </label>
-            <br />
-            <input type="text" className="form-control" name="proveedor" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Alimento: </label>
-            <br />
-            <input type="text" className="form-control" name="alimento" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Unidad: </label>
-            <br />
-            <input type="text" className="form-control" name="unidad" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Cantidad: </label>
-            <br />
-            <input type="text" className="form-control" name="cantidad" onChange={(e) => handleInputChange(e)}/>
-            </div>
-        </ModalBody>
-        <ModalFooter>
-            <button className="btn btn-primary" type="submit">Insertar</button>{"   "}
-            
-        </ModalFooter>
-        </form>
-        <button className="btn btn-danger" onClick={()=>
-                setInsertar(false)
-                }>Cancelar</button>
-        </Modal>
-
-
-        <Modal isOpen={editar===true}>
-        
-        <ModalHeader>Editar Registro</ModalHeader>
-        <form onSubmit={addProduct}>
-        <ModalBody>
-            <div className="form-group">
-            <label>Proveedor: </label>
-            <br />
-            <input type="text" className="form-control" name="proveedor" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Alimento: </label>
-            <br />
-            <input type="text" className="form-control" name="alimento" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Unidad: </label>
-            <br />
-            <input type="text" className="form-control" name="unidad" onChange={(e) => handleInputChange(e)}/>
-            <br />
-            <label>Cantidad: </label>
-            <br />
-            <input type="text" className="form-control" name="cantidad" onChange={(e) => handleInputChange(e)}/>
-            </div>
-        </ModalBody>
-        <ModalFooter>
-            <button className="btn btn-primary" onClick={()=>editProduct()}>Editar</button>{"   "}
-            </ModalFooter>
-        </form>
-        <button className="btn btn-danger" onClick={()=>
-                setInsertar(false)
-                }>Cancelar</button>
-        </Modal>
+        </div>
         </>
     )
 }

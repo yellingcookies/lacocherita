@@ -3,7 +3,7 @@ import styles from "./Orders.module.css"
 import useFetchCollection from "../../../customHooks/useFetchCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { STORE_ORDERS, selectOrderHistory } from "../../../redux/slice/orderSlice";
-import { selectUserID } from "../../../redux/slice/authSlice";
+import { selectRol, selectUserID } from "../../../redux/slice/authSlice";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../loader/Loader";
 
@@ -11,6 +11,7 @@ const Orders = () => {
     const {data, isLoading} = useFetchCollection("orders");
     const orders = useSelector(selectOrderHistory)
     const userID = useSelector(selectUserID)
+    const userRol = useSelector(selectRol)
 
     const dispatch = useDispatch()
     const Navigate = useNavigate()
@@ -20,7 +21,12 @@ const Orders = () => {
     }, [dispatch, data])
 
     const handleClick = (id) => {
-        Navigate(`/admin/order-details/${id}`)
+        if(userRol=="employee"){
+            Navigate(`/employee/order-details/${id}`)
+        }
+        else{
+            Navigate(`/admin/order-details/${id}`)
+        }
     }
     
     return <>

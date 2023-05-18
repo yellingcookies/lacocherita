@@ -4,7 +4,10 @@ const initialState = {
     products: [],
     minPrice: null,
     maxPrice: null,
+    ingredientes: []
 }
+
+const ingredientes = ""
 
 const productSlice = createSlice({
     name: "product",
@@ -12,6 +15,9 @@ const productSlice = createSlice({
     reducers: {
         STORE_PRODUCTS(state, action){
             state.products = action.payload.products
+        },
+        STORE_INGREDIENTS(state, action){
+            state.ingredientes = action.payload.ingredientes
         },
         GET_PRICE_RANGE(state, action){
             const {products} = action.payload
@@ -29,9 +35,10 @@ const productSlice = createSlice({
 });
 
 
-export const {STORE_PRODUCTS, GET_PRICE_RANGE} = productSlice.actions
+export const {STORE_PRODUCTS, GET_PRICE_RANGE, STORE_INGREDIENTS} = productSlice.actions
 
 export const selectProducts = (state) => state.product.products;
 export const selectMinPrice = (state) => state.product.minPrice;
 export const selectMaxPrice = (state) => state.product.maxPrice;
+export const selectIngredients = (state) => state.product.ingredientes;
 export default productSlice.reducer

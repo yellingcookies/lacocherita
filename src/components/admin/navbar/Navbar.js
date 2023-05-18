@@ -40,8 +40,18 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to="/admin/stock" className={activeLink}>
+                            Inventario
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/admin/register-admin" className={activeLink}>
                             Registrar Admin
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin/help-admin" className={activeLink}>
+                            Ayuda
                         </NavLink>
                     </li>
                 </ul>

@@ -7,9 +7,10 @@ import { useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer, toast} from 'react-toastify';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 import Loader from "../../components/loader/Loader";
 import {useNavigate} from "react-router-dom";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -28,19 +29,22 @@ const Register = () => {
         else{
             setIsLoading(true);
 
-        createUserWithEmailAndPassword(auth, email, password)
+        const infoUsuario = createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
+            setDoc(doc(db, `usuarios/${userCredential.user.uid}`), {
+                correo: email,
+                rol: ""
+              });
             setIsLoading(false);
             toast.success("Registrado Correctamente");
-            navigate("/login");
+            navigate("/");
         })
         .catch((error) => {
             toast.error(error.message);
             setIsLoading(false);
             // ..
         });
+        console.log(infoUsuario)
         }
     };
     return(

@@ -139,7 +139,7 @@ const AddProducts = () => {
             <h2>{detectForm(id, "Agregar Nuevo Producto", "Editar Producto")}</h2>
             <Card cardClass={styles.card}>
                 <form onSubmit={detectForm(id, addProduct, editProduct)}>
-                <label>Product name:</label>
+                <label>Nombre del producto:</label>
                 <input type="text" placeholder="Nombre del producto" required name="name" value={product.name} onChange={(e) => handleInputChange(e)}/>
                 <label>Imagen del producto:</label>
                 <Card cardClass={styles.group}>

@@ -40,7 +40,7 @@ const ProductList = ({products}) => {
                     <BsFillGridFill size={22} color="orangered" onClick={() => setGrid(true)}/>
                     <FaListAlt size={24} color="#0066d4" onClick={() => setGrid(false)}/>
                     <p>
-                        <b>{filteredProducts.length}</b> Productos encontrados.
+                        <b>{filteredProducts.length}</b> Productos
                     </p>
                 </div>
                 {/* Search Icon */}

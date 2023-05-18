@@ -86,7 +86,8 @@ const Cart = () => {
     }
 
     const saveOrder = () => {
-        const today = new Date()
+        if(isLoggedIn){
+            const today = new Date()
         const date = today.toDateString()
         const time = today.toLocaleTimeString()
         const orderConfig = {
@@ -105,28 +106,36 @@ const Cart = () => {
             dispatch(CLEAR_CART())
             toast.success("Orden Guardada")
             const a = orders[0].id
-            navigate(`/order-history/${a}`)
+            navigate(`/order-history`)
         }catch(error){
             toast.error(error.message)
+        }
+        } else{
+            dispatch(SAVE_URL(url))
+            navigate("/login")
         }
       }
 
       const editOrder = () => {
-        
-        try {
-            //setDoc(doc(db, "orders", id), orderConfig)
-            //addDoc(collection(db, "orders"), orderConfig);
-            toast.success("Entró")
-            updateDoc(doc(db, "orders", id), {
-                orderAmount: order.orderAmount + cartTotalAmount,
-                cartItems: arrayUnion(...cartItems)
-            })
-            dispatch(CLEAR_CART())
-            toast.success("Orden Actualizada")
-            const a = orders[0].id
-            navigate(`/order-details/${a}`)
-        }catch(error){
-            toast.error(error.message)
+        if(isLoggedIn){
+            try {
+                //setDoc(doc(db, "orders", id), orderConfig)
+                //addDoc(collection(db, "orders"), orderConfig);
+                toast.success("Entró")
+                updateDoc(doc(db, "orders", id), {
+                    orderAmount: order.orderAmount + cartTotalAmount,
+                    cartItems: arrayUnion(...cartItems)
+                })
+                dispatch(CLEAR_CART())
+                toast.success("Orden Actualizada")
+                const a = orders[0].id
+                navigate(`/order-details/${a}`)
+            }catch(error){
+                toast.error(error.message)
+            }
+        } else{
+            dispatch(SAVE_URL(url))
+            navigate("/login")
         }
       }
 

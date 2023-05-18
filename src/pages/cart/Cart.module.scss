@@ -29,14 +29,13 @@
           }
         }
       }
-  
-      tr {
-        border-bottom: 1px solid #ccc;
-      }
-  
-      tr:nth-child(even) {
-        background-color: #eee;
-      }
+        tr {
+          border-bottom: 1px solid #ccc;
+        }
+    
+        tr:nth-child(even) {
+          background-color: #eee;
+        }
     }
     .summary {
       margin-top: 2rem;

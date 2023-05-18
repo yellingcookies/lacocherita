@@ -2,11 +2,12 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { auth } from '../../../firebase/config';
+import { auth, db } from '../../../firebase/config';
 import Loader from '../../loader/Loader';
 import Card from '../../card/Card';
 import registerImg from "../../../assets/register.png";
 import styles from "./RegisterAdmin.module.css";
+import { doc, setDoc } from 'firebase/firestore';
 
 function RegisterAdmin() {
     const [email, setEmail] = useState("");
@@ -27,6 +28,10 @@ function RegisterAdmin() {
 
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            setDoc(doc(db, `usuarios/${userCredential.user.uid}`), {
+                correo: email,
+                rol: "employee"
+              });
             const user = userCredential.user;
             console.log(user);
             setIsLoading(false);
@@ -46,7 +51,7 @@ function RegisterAdmin() {
         <section className={`container ${styles.auth}`}>
         <Card>
         <div className={styles.form}>
-            <h2>Registrar Trabajadores</h2>
+            <h2>Registrar Empleados</h2>
             <form onSubmit={registerUser}>
                 <input type="text" placeholder="Correo" required 
                 value={email} onChange={(e) => setEmail(e.target.value)}/>
@@ -62,9 +67,6 @@ function RegisterAdmin() {
             </span>
         </div>
         </Card>
-        <div className={styles.img}>
-            <img src={registerImg} alt="Register" width="400"/>
-        </div>
     </section>
     </>
   )

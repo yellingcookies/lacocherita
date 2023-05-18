@@ -6,19 +6,21 @@ import styles from "./Header.module.css";
 import {FaShoppingCart, FaUserCircle} from "react-icons/fa";
 import {FaTimes} from "react-icons/fa";
 import {HiOutlineMenuAlt3} from "react-icons/hi";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from 'react-toastify';
 import {useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectUserID } from "../../redux/slice/authSlice";
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER, selectRol, selectUserID } from "../../redux/slice/authSlice";
 import ShowOnLogin, { ShowOnLogout } from "../hiddenLink/hiddenLink";
 import AdminOnlyRoute, { AdminOnlyLink } from "../adminOnlyRoute/AdminOnlyRoute";
 import { CALCULATE_TOTAL_QUANTITY, selectCartTotalQuantity } from "../../redux/slice/cartSlice";
-import { Timestamp } from "firebase/firestore";
+import { Timestamp, doc, getDoc } from "firebase/firestore";
 import { STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
 import useFetchCollection from "../../customHooks/useFetchCollection";
+import useFetchDocument from "../../customHooks/useFetchDocument";
+import { EmployeeOnlyLink } from "../employeeOnlyRoute/EmployeeOnlyRoute";
 
 const logo = (
     <div className={styles.logo}>
@@ -40,12 +42,21 @@ const Header = () => {
     const orders = useSelector(selectOrderHistory)
     const {data, isLoading} = useFetchCollection("orders");
     const userID = useSelector(selectUserID)
+    const userRol = useSelector(selectRol)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     
     const ActualOrders = orders.filter((order) => order.orderStatus === "Order Placed..." && order.userID === userID)
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
+
+    async function getRol(uid){
+        const docuref = doc(db, `usuarios/${uid}`)
+        const docuCifrada = await getDoc(docuref)
+        const infoFinal = docuCifrada.data().rol;
+        return infoFinal
+    }
 
     useEffect(() => {
         dispatch(STORE_ORDERS(data)) 
@@ -68,7 +79,7 @@ const Header = () => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if(user) {
-                // console.log(user);
+                setIsLoggedIn(true);
                 if(user.displayName == null){
                     const u1 = user.email.substring(0, user.email.indexOf("@"));
                     const uName= u1.charAt(0).toUpperCase() + u1.slice(1);
@@ -76,13 +87,16 @@ const Header = () => {
                 } else{
                     setdisplayName(user.displayName);
                 }
-                
-                dispatch(SET_ACTIVE_USER({
-                    email: user.email,
-                    userName: user.displayName ? user.displayName : displayName,
-                    userID: user.uid,
-                }))
+                getRol(user.uid).then((rol) => {
+                    dispatch(SET_ACTIVE_USER({
+                        email: user.email,
+                        userName: user.displayName ? user.displayName : displayName,
+                        userID: user.uid,
+                        userRol: rol
+                    }))
+                })
             } else {
+                setIsLoggedIn(false);
                 setdisplayName("");
                 dispatch(REMOVE_ACTIVE_USER());
             }
@@ -105,7 +119,7 @@ const Header = () => {
             toast.error(error.message);
           });
     };
-
+    
     const orderverification = () => {
         if(ActualOrders.length>0){
             const a = orders[0].id
@@ -115,7 +129,7 @@ const Header = () => {
 
     const cart = ( 
         <span className={styles.cart} onClick={orderverification}>
-                <Link to="/cart/ADD">Carrito
+                <Link to="/cart/ADD">Cart
                 <FaShoppingCart size={20}/> 
                 <p>{cartTotalQuantity}</p>
                 </Link>
@@ -142,6 +156,11 @@ const Header = () => {
                         <button className="--btn --btn-primary">Admin</button>
                         </Link>
                         </AdminOnlyLink>
+                        <EmployeeOnlyLink isLoggedIn={isLoggedIn}>
+                            <Link to="/employee/home">
+                            <button className="--btn --btn-primary">Empleado</button>
+                            </Link>
+                        </EmployeeOnlyLink>
                     </li>
                     <li>
                         <NavLink to="/" className={activeLink}>

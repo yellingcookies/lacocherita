@@ -1,18 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectEmail } from '../../redux/slice/authSlice';
+import { selectEmail, selectRol } from '../../redux/slice/authSlice';
 
-const AdminOnlyRoute = ({children}) => {
-    const userEmail = useSelector(selectEmail);
-    if(userEmail === "admin@admin.com"){//123456
+const EmployeeOnlyRoute = ({children}) => {
+    const userRol = useSelector(selectRol);
+    if(userRol === "employee"){
         return children;
     }
     return (
         <section style={{height: "80vh"}}>
             <div>
                 <h2>Permiso Denegado.</h2>
-                <p>Esta página solo puede ser visualizada por un administrador.</p>
+                <p>Esta página solo puede ser visualizada por empleados.</p>
                 <br/>
                 <Link to="/">
                 <button className="--btn">&larr; Regresar a inicio</button>
@@ -22,12 +22,12 @@ const AdminOnlyRoute = ({children}) => {
     );
 };
 
-export const AdminOnlyLink = ({children}) => {
-    const userEmail = useSelector(selectEmail);
-    if(userEmail === "admin@admin.com"){
+export const EmployeeOnlyLink = ({children}) => {
+    const userRol = useSelector(selectRol);
+    if(userRol === "employee"){
         return children;
     }
     return null;
 };
 
-export default AdminOnlyRoute;
+export default EmployeeOnlyRoute;

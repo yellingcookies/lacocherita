@@ -19,6 +19,7 @@ const cartSlice = createSlice({
                 //Item already exists in the cart
                 //Increase the cartQuantity
                 state.cartItems[productIndex].cartQuantity += 1
+                state.cartItems[productIndex].desc = desc
                 //toast.info(`${action.payload.name} increased by one`, {position: "top-left"})
                 toast.info(`${product.name} increased by one`, {position: "top-left"})
             }else {

@@ -5,13 +5,14 @@ import {Link} from "react-router-dom";
 import {FaGoogle} from "react-icons/fa";
 import Card from "../../components/card/Card";
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 import {useNavigate} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast} from 'react-toastify';
 import Loader from "../../components/loader/Loader";
 import { useSelector } from "react-redux";
 import { selectPreviousURL } from "../../redux/slice/cartSlice";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const Login = () => {
 
     const redirectUser = () => {
         if(previousURL.includes("cart")){
-            return navigate("/cart")
+            return navigate("/cart/ADD")
         }else{
             navigate("/")
         }
@@ -44,15 +45,19 @@ const Login = () => {
             setIsLoading(false);
             toast.error(error.message);
         });
-        console.log(email, password);
     }
 
     // Login with Google
     const provider = new GoogleAuthProvider();
+
     const signInWithGoogle = () => {
-        signInWithPopup(auth, provider)
+        const infoUsuario = signInWithPopup(auth, provider)
   .then((result) => {
     // const user = result.user;
+    setDoc(doc(db, `usuarios/${result.user.uid}`), {
+        correo: result.user.email,
+        rol: ""
+      });
     toast.success("Inicio de sesión completado");
     redirectUser()
   }).catch((error) => {

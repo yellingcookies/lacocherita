@@ -5,13 +5,15 @@ import styles from "./ChangeOrderStatus.module.css"
 import { Timestamp, collection, doc, setDoc } from "firebase/firestore"
 import { db } from "../../../firebase/config"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { selectRol } from "../../../redux/slice/authSlice"
+import { useSelector } from "react-redux"
 
 const ChangeOrderStatus = ({order, id}) => {
-
     const [status, setStatus] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
+    const userRol = useSelector(selectRol)
 
     const editOrder = (e, id) => {
         e.preventDefault()
@@ -33,7 +35,12 @@ const ChangeOrderStatus = ({order, id}) => {
             setDoc(doc(db, "orders", id), orderConfig);
             setIsLoading(false)
             toast.success("Estado de la orden cambiado correctamente")
-            navigate("/admin/orders")
+            if(userRol=="employee"){
+                navigate("/employee/orders")
+            }
+            else{
+                navigate("/admin/orders")
+            }
         }catch(error){
             setIsLoading(false)
             toast.error(error.message)

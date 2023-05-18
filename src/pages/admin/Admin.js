@@ -8,6 +8,10 @@ import styles from "./Admin.module.css";
 import Home from "../../components/admin/home/Home";
 import OrderDetails from "../../components/admin/orderDetails/OrderDetails";
 import RegisterAdmin from "../../components/admin/registerAdmin/RegisterAdmin";
+import HelpAdmin from "../../components/admin/helpAdmin/HelpAdmin";
+import StockAdmin from "../../components/admin/stockadmin/StockAdmin";
+import AddStock from "../../components/admin/addStock/AddStock";
+
 const Admin = () => {
     return <div className={styles.admin}>
         <div className={styles.navbar}>
@@ -21,6 +25,9 @@ const Admin = () => {
                 <Route path="orders" element={<Orders/>}/>
                 <Route path="order-details/:id" element={<OrderDetails/>}/>
                 <Route path="register-admin" element={<RegisterAdmin/>}/>
+                <Route path="help-admin" element={<HelpAdmin/>}/>
+                <Route path="stock" element={<StockAdmin/>}/>
+                <Route path="add-stock/:id" element={<AddStock/>}/>
             </Routes>
         </div>
     </div>

@@ -28,7 +28,11 @@ import ReviewProducts from "./components/reviewProducts/ReviewProducts";
 import NotFound from "./pages/notFound/NotFound";
 import Stock from "./pages/Stock/Stock";
 import CartOrder from "./pages/cartprocess/CartOrder";
+import Help from "./pages/help/Help";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import Employee from "./pages/employee/Employee";
+import EmployeeOnlyRoute from "./components/employeeOnlyRoute/EmployeeOnlyRoute";
+import Inventarioss from "./pages/inventario/Inventarioss";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -52,10 +56,13 @@ root.render(
            <Route path="/checkout" element={<Checkout/>} />
            <Route path="/checkout-success" element={<CheckoutSuccess/>} />
            <Route path="/admin/*" element={<AdminOnlyRoute><Admin/></AdminOnlyRoute>} />
+           <Route path="/employee/*" element={<EmployeeOnlyRoute><Employee/></EmployeeOnlyRoute>} />
            <Route path="/inventario" element={<Inventario/>}/>
+           <Route path="/inventarioss" element={<Inventarioss/>}/>
            <Route path="/product-details/:id" element={<ProductDetails/>}/>
            <Route path="/add" element={<Add/>}/>
            <Route path="/stock" element={<Stock/>}/>
+           <Route path="/help" element={<Help/>}/>
            <Route path="*" element={<NotFound/>}/>
          </Routes>
        <Footer/>

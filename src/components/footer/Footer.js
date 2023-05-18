@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import styles from "./Footer.module.css"
+import { AiFillFacebook } from "react-icons/ai";
+import { SiWhatsapp } from "react-icons/si";
+import { SiInstagram } from "react-icons/si";
 
 const date = new Date();
 const year = date.getFullYear();
@@ -39,14 +42,38 @@ const Footer = () => {
         setIsReadyForInstall(false);
       }
 
-    return <div className={styles.footer}>
+      return <div className={styles.footer}>
+
+      <div className="footer">
+      <div className="footer-row">
+      <div className="footer-links">
+        <br/>
+        <h4>Compañia</h4>
+        <ul>
+          <li><a href="/contact">Contactanos</a></li>
+          <li><a href="/help">Ayuda</a></li>
+        </ul>
+      </div>
+      <div className="social-links">
+        <h4>Siguenos</h4>
+        <ul>
+          <li><AiFillFacebook size={28}/></li>
+           <li><SiInstagram size={28}/></li>
+            <li><SiWhatsapp size={28}/></li>   
+        </ul>     
+    </div>
+    </div>
+
+        <br/>
+        <br/>
+              <br/>
         &copy; {year} All Rights Reserved
-        <br/>
-        <br/>
+        La Cocherita 2023
         <br/>
         {isReadyForInstall && <button onClick={downloadApp}>Descargar</button>}
-        Holaaa
+    </div>
     </div>;
 };
+
 
 export default Footer;
