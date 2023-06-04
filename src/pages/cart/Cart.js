@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Cart.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import { ADD_TO_CART, CALCULATE_SUBTOTAL, CALCULATE_TOTAL_QUANTITY, CLEAR_CART, DECREASE_CART, REMOVE_FROM_CART, SAVE_URL, selectCartItems, selectCartTotalAmount, selectCartTotalQuantity } from "../../redux/slice/cartSlice";
@@ -10,6 +10,16 @@ import { Timestamp, addDoc, arrayUnion, collection, doc, setDoc, updateDoc } fro
 import { db } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { selectOrderHistory } from "../../redux/slice/orderSlice";
+
+const numbers = [
+    {id: 1, name: "1"},
+    {id: 1, name: "2"},
+    {id: 1, name: "3"},
+    {id: 1, name: "4"},
+    {id: 1, name: "5"},
+    {id: 1, name: "6"},
+    {id: 1, name: "7"},
+]; 
 
 const initialState = {
     userID: "",
@@ -34,8 +44,26 @@ const Cart = () => {
     const orders = useSelector(selectOrderHistory)
     const navigate = useNavigate()
     const orderEdit = orders.find((item) => item.id === id)
+    var table = "";
+    const number = useRef(null)
     console.log(id)
 
+    const url = window.location.href;
+    const ActualOrders = orders.filter((order) => order.orderStatus === "Orden Realizada..." && order.userID === userID)
+
+    useEffect(() => {
+        const redirection = () => {
+            if(ActualOrders.length>0){
+                if(url.includes("ADD")){
+                    navigate("/")
+                    return
+                }
+            }
+        }; 
+        redirection(); 
+    }, [url])
+
+    const [numero, setNumero] = useState({name:""})
     const [order, setOrder] = useState(() => {
         const newState = detectForm(id, 
             { ...initialState},
@@ -51,6 +79,12 @@ const Cart = () => {
             return f2
         }
     }
+
+    const handleInputChange = (e) => {
+        const {value} = e.target;
+        //table = value;
+        setNumero({...numero, name: value});
+    };
 
     const increaseCart = (cart) => {
         console.log(cart)
@@ -74,7 +108,7 @@ const Cart = () => {
         dispatch(SAVE_URL(""))
     }, [dispatch, cartItems]);
 
-    const url = window.location.href
+    // const url = window.location.href
 
     const checkout = () => {
         if(isLoggedIn){
@@ -87,29 +121,34 @@ const Cart = () => {
 
     const saveOrder = () => {
         if(isLoggedIn){
-            const today = new Date()
-        const date = today.toDateString()
-        const time = today.toLocaleTimeString()
-        const orderConfig = {
-            userID,
-            userEmail,
-            orderDate: date,
-            orderTime: time,
-            orderAmount: cartTotalAmount,
-            orderStatus: "Order Placed...",
-            cartItems,
-            edit: "Pedro",
-            createdAt: Timestamp.now().toDate()
-        }
-        try {
-            addDoc(collection(db, "orders"), orderConfig);
-            dispatch(CLEAR_CART())
-            toast.success("Orden Guardada")
-            const a = orders[0].id
-            navigate(`/order-history`)
-        }catch(error){
-            toast.error(error.message)
-        }
+            if(numero.name===""){
+                toast.error("Debes agregar número de mesa")
+            }
+            else{
+                const today = new Date()
+                const date = today.toDateString()
+                const time = today.toLocaleTimeString()
+                const orderConfig = {
+                    userID,
+                    userEmail,
+                    orderDate: date,
+                    orderTime: time,
+                    orderAmount: cartTotalAmount,
+                    orderStatus: "Orden Realizada...",
+                    cartItems,
+                    table: numero.name,
+                    createdAt: Timestamp.now().toDate()
+                }
+                try {
+                    addDoc(collection(db, "orders"), orderConfig);
+                    dispatch(CLEAR_CART())
+                    toast.success("Orden Guardada")
+                    const a = orders[0].id
+                    navigate(`/order-history`)
+                }catch(error){
+                    toast.error(error.message)
+                }
+            }
         } else{
             dispatch(SAVE_URL(url))
             navigate("/login")
@@ -152,6 +191,20 @@ const Cart = () => {
                 </>
             ) : (
                 <>
+                {detectForm(id, <span>Numero de mesa</span>, "")}
+                {/* {detectForm(id, <input type="number" placeholder="mesa" name="description" onChange={(e) => handleInputChange(e)} ref={number}/>, "")} */}
+                {detectForm(id, <select required name="category" value={numero.name} onChange={(e) => handleInputChange(e)}>
+                    <option value="">
+                        -- Numero de mesa --
+                    </option>
+                    {numbers.map((cat) =>{
+                        return (
+                            <option key={cat.id} value={cat.name}>
+                                {cat.name}
+                            </option>
+                        )
+                    })};
+                    </select>, "")}
                 <table>
                     <thead>
                         <tr>
@@ -167,6 +220,7 @@ const Cart = () => {
                         {cartItems.map((cart, index) =>{
                             const {id, name, price, imageURL, cartQuantity, desc} = cart;
                             return (
+                                <>
                                 <tr key={id}>
                                     <td>{index + 1}</td>
                                     <td>
@@ -180,7 +234,7 @@ const Cart = () => {
                                         <div className={styles.count}>
                                             <button className="--btn" onClick={() => decreaseCart(cart)}>-</button>
                                             <p>
-                                                <b>{cartQuantity}{desc}</b>
+                                                <b>{cartQuantity}</b>
                                             </p>
                                             <Link to={`/product-details/${id}`}>
                                                 {/* <button className="--btn" onClick={() => increaseCart(cart)}>+</button> */}
@@ -195,6 +249,18 @@ const Cart = () => {
                                         <FaTrashAlt size={19} color="red" onClick={() => removeFromCart(cart)}/>
                                     </td>
                                 </tr>
+                                {desc.length > 0 && (
+                                    <tr key={`${id}-descriptions`}>
+                                        <td colSpan="6">
+                                            <ul>
+                                                {desc.map((description, descIndex) => (
+                                                    <li key={`${id}-description-${descIndex}`}><div className={styles.desc}><span>{`${descIndex + 1}.`}</span><p>{description}</p></div></li>
+                                                ))}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                )}
+                                </>
                             )
                         })}
                     </tbody>

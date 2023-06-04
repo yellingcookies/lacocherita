@@ -40,4 +40,8 @@
 .table table .delivered {
   color: green;
   font-weight: 500;
+}
+.table table .rejected {
+  color: red;
+  font-weight: 500;
 }/*# sourceMappingURL=Orders.module.css.map */

@@ -23,6 +23,7 @@
   font-weight: 500;
 }
 .checkout form input[type=text],
+.checkout form input[type=tel],
 .checkout form .select,
 .checkout form .card-details {
   display: block;

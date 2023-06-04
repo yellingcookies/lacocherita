@@ -48,7 +48,7 @@ const Product = () => {
                 <div className={styles.icon} onClick={toggleFilter}>
                     <FaCogs size={20} color="orangered"/>
                     <p>
-                        <b>{showFilter ? "Hide Filter" : "Show Filter"}</b>
+                        <b>{showFilter ? "Ocultar Filtros" : "Mostrar Filtros"}</b>
                     </p>
                 </div>
             </div>

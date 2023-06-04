@@ -32,6 +32,10 @@ const OrderDetails = () => {
                     <p>
                         <b>Estatus de la orden</b> {order.orderStatus}
                     </p>
+
+                    <p>
+                        <b>Número de mesa</b> {order.table}
+                    </p>
                     <br/>
                     <table>
                         <thead>
@@ -46,8 +50,9 @@ const OrderDetails = () => {
                         </thead>
                         <tbody>
                             {order.cartItems.map((cart, index) => {
-                                const {id, name, price, imageURL, cartQuantity} = cart
+                                const {id, name, price, imageURL, cartQuantity, desc} = cart
                                 return (
+                                    <>
                                     <tr key={id}>
                                         <td>
                                             <b>{index + 1}</b>
@@ -71,6 +76,29 @@ const OrderDetails = () => {
                                             </Link>
                                         </td>
                                     </tr>
+                                    {desc.length > 0 && (
+                                    <tr key={`${id}-descriptions`}>
+                                        <td colSpan="6">
+                                            <ul>
+                                                {desc.map((description, descIndex) => (
+                                                    <li key={`${id}-description-${descIndex}`}><div className={styles.desc}><span>{`${descIndex + 1}.`}</span><p>{description}</p></div></li>
+                                                ))}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                )}
+                                    {/* {desc.length > 0 && (
+                                        <tr key={`${id}-descriptions`}>
+                                            <td colSpan="6">
+                                                <ul>
+                                                    {desc.map((description, descIndex) => (
+                                                        <li key={`${id}-description-${descIndex}`}>{description}</li>
+                                                    ))}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    )} */}
+                                    </>
                                 )
                             })}
                         </tbody>

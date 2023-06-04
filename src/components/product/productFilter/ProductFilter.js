@@ -52,7 +52,7 @@ const ProductFilter = () => {
                     >&#8250; {cat}</button>
                 )
             })}
-        </div>
+        {/* </div>
         <h4>Horario</h4>
         <div className={styles.brand}>
             <select value={brand} onChange={(e) => setBrand(e.target.value)}>
@@ -68,7 +68,7 @@ const ProductFilter = () => {
                 <input type="range" value={price} onChange={(e) => setPrice(e.target.value)} min={minPrice} max={maxPrice}/>
             </div>
             <br/>
-            <button className="--btn --btn-danger" onClick={clearFilters}>Borrar Filtros</button>
+            <button className="--btn --btn-danger" onClick={clearFilters}>Borrar Filtros</button> */}
         </div>
         </div>
 }

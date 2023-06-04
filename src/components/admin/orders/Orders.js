@@ -45,22 +45,24 @@ const Orders = () => {
                                     <tr>
                                         <th>s/n</th>
                                         <th>Fecha</th>
-                                        <th>ID de la orden</th>
+                                        {/* <th>ID de la orden</th> */}
+                                        <th>Mesa</th>
                                         <th>Total de la orden</th>
                                         <th>Estado de la orden</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {orders.map((order, index) => {
-                                        const {id, orderDate, orderTime, orderAmount, orderStatus} = order
+                                        const {id, orderDate, orderTime, orderAmount, orderStatus, table} = order
                                         return (
                                             <tr key={id} onClick={() => handleClick(id)}>
                                                 <td>{index + 1}</td>
                                                 <td>{orderDate} at {orderTime}</td>
-                                                <td>{id}</td>
+                                                <td>{table}</td>
                                                 <td>{"$"}{orderAmount}</td>
                                                 <td>
-                                                    <p className={orderStatus !== "Delivered" ? `${styles.pending}` : `${styles.delivered}`}>
+                                                    {/* <p className={orderStatus !== "Entregada" ? `${styles.pending}` : `${styles.delivered}`}> */}
+                                                    <p className={orderStatus !== "Entregada" ? (orderStatus !== "Rechazada" ? `${styles.pending}`:`${styles.rejected}`) : `${styles.delivered}`}>
                                                         {orderStatus}
                                                     </p>
                                                 </td>

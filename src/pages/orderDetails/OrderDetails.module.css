@@ -32,6 +32,15 @@
 .table table tr:nth-child(even) {
   background-color: #eee;
 }
+.table .desc {
+  width: 500px;
+}
+.table .desc p {
+  word-wrap: break-word;
+}
+.table ul {
+  list-style: none;
+}
 .table .summary {
   margin-top: 2rem;
   display: flex;

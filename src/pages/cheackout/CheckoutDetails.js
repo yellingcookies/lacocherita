@@ -7,14 +7,25 @@ import { SAVE_BILLING_ADDRESS, SAVE_SHIPPING_ADDRESS } from '../../redux/slice/c
 import { useNavigate } from 'react-router-dom'
 import CheckoutSummary from '../../components/checkoutSummary/CheckoutSummary';
 
+// const initialAddressState = {
+//     name: "",
+//     line1: "",
+//     line2: "",
+//     city: "",
+//     state: "",
+//     postal_code: "",
+//     country: "",
+//     phone: "",
+// }
+
 const initialAddressState = {
     name: "",
     line1: "",
     line2: "",
-    city: "",
-    state: "",
+    // city: "",
+    // state: "",
     postal_code: "",
-    country: "",
+    // country: "",
     phone: "",
 }
 
@@ -57,26 +68,27 @@ const CheckoutDetails = () => {
                             <input type="text" placeholder="Nombre del destinatario" required name="name" value={shippingAddress.name} onChange={(e) => handleShipping(e)}/>
                             <label>Dirección</label>
                             <input type="text" placeholder="Dirección" required name="line1" value={shippingAddress.line1} onChange={(e) => handleShipping(e)}/>
-                            <label>Número interior</label>
+                            <label>Número interior (Opcional)</label>
                             <input type="text" placeholder="Número interior" name="line2" value={shippingAddress.line2} onChange={(e) => handleShipping(e)}/>
-                            <label>Ciudad</label>
+                            {/* <label>Ciudad</label>
                             <input type="text" placeholder="Ciudad" required name="city" value={shippingAddress.city} onChange={(e) => handleShipping(e)}/>
                             <label>Estado</label>
-                            <input type="text" placeholder="Estado" required name="state" value={shippingAddress.state} onChange={(e) => handleShipping(e)}/>
+                            <input type="text" placeholder="Estado" required name="state" value={shippingAddress.state} onChange={(e) => handleShipping(e)}/> */}
                             <label>Código Postal</label>
-                            <input type="text" placeholder="Código Postal" required name="postal_code" value={shippingAddress.postal_code} onChange={(e) => handleShipping(e)}/>
+                            <input type="text" placeholder="Código Postal (5 números)" required name="postal_code" value={shippingAddress.postal_code} onChange={(e) => handleShipping(e)} pattern="[0-9]{5}"/>
                             {/* COUNTRY INPUT*/}
-                            <CountryDropdown className={styles.select} valueType="short" value={shippingAddress.country} defaultOptionLabel="Seleccione su país" onChange={(val) => handleShipping({
+                            {/* <CountryDropdown className={styles.select} valueType="short" value={shippingAddress.country} defaultOptionLabel="Seleccione su país" onChange={(val) => handleShipping({
                                 target: {
                                     name: "country",
                                     value: val,
                                 }
-                            })}/>
+                            })}/> */}
                             <label>Teléfono</label>
-                            <input type="text" placeholder="Teléfono" required name="phone" value={shippingAddress.phone} onChange={(e) => handleShipping(e)}/>
+                            <input type="tel" placeholder="Teléfono (10 números)" required name="phone" value={shippingAddress.phone} onChange={(e) => handleShipping(e)} pattern="[0-9]{10}"/>
+                            <button type="submit" className="--btn --btn-primary">Proceder al pago</button>
                         </Card>
                         {/* BILLING ADDRESS */}
-                        <Card cardClass={styles.card}>
+                        {/* <Card cardClass={styles.card}>
                             <h3>Dirección de facturación</h3>
                             <label>Nombre</label>
                             <input type="text" placeholder="Nombre" required name="name" value={billingAddress.name} onChange={(e) => handleBilling(e)}/>
@@ -90,7 +102,6 @@ const CheckoutDetails = () => {
                             <input type="text" placeholder="Estado" required name="state" value={billingAddress.state} onChange={(e) => handleBilling(e)}/>
                             <label>Código Postal</label>
                             <input type="text" placeholder="Código Postal" required name="postal_code" value={billingAddress.postal_code} onChange={(e) => handleBilling(e)}/>
-                            {/* COUNTRY INPUT*/}
                             <CountryDropdown className={styles.select} valueType="short" value={billingAddress.country} defaultOptionLabel="Seleccione su país" onChange={(val) => handleBilling({
                                 target: {
                                     name: "country",
@@ -100,7 +111,7 @@ const CheckoutDetails = () => {
                             <label>Teléfono</label>
                             <input type="text" placeholder="Teléfono" required name="phone" value={billingAddress.phone} onChange={(e) => handleBilling(e)}/>
                             <button type="submit" className="--btn --btn-primary">Proceder al pago</button>
-                        </Card>
+                        </Card> */}
                     </div>
                     <div>
                         <Card cardClass={styles.card}>

@@ -48,7 +48,7 @@ const Footer = () => {
 <div className={styles.footercounter}>
         <h3>Sobre Nosotros</h3>
         <br/>
-        <p>Somos una cafeteria ecepcional con el objetivo de brindarle a nuestros comensales la mejor calidad en todos nuestros productos</p>
+        <p>Somos una cafetería excepcional con el objetivo de brindarle a nuestros comensales la mejor calidad en todos nuestros productos</p>
         <br/>
         <ul className={styles.socials}>
         <li><AiFillFacebook size={28}/></li>
@@ -58,8 +58,16 @@ const Footer = () => {
           <li><a href="/help">Ayuda</a></li> 
         </ul>
         <div className={styles.footerbottom}>
-        <p>Restaurant Plus  &copy; {year} All Rights Reserved</p>
+        {/* <p>Restaurant Plus  &copy; {year} All Rights Reserved</p> */}
         {isReadyForInstall && <center><button className="--btn --btn-primary" onClick={downloadApp}>Descargar aplicación móvil</button></center>}
+        {/* <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/> */}
+        <p>Restaurant Plus  &copy; {year} All Rights Reserved</p>
+        
         
     </div>
     </div>

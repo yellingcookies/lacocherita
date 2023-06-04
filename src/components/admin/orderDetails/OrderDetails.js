@@ -4,11 +4,14 @@ import useFetchDocument from "../../../customHooks/useFetchDocument"
 import spinnerImg from "../../../assets/spinner.gif"
 import { Link, useParams } from "react-router-dom"
 import ChangeOrderStatus from "../changeOrderStatus/ChangeOrderStatus"
+import { useSelector } from "react-redux"
+import { selectRol } from "../../../redux/slice/authSlice"
 
 const OrderDetails = () => {
     const [order, setOrder] = useState(null)
     const {id} = useParams()
     const { document } = useFetchDocument("orders", id)
+    const userRol = useSelector(selectRol)
 
     useEffect(() => {
         setOrder(document)
@@ -18,7 +21,13 @@ const OrderDetails = () => {
         <div className={`container ${styles.table}`}>
             <h2>Detalles de la orden</h2>
             <div>
-                <Link to="/admin/orders">&larr; Regresar a ordenes</Link>
+                {userRol==="employee" ? (
+                    <Link to="/employee/orders">&larr; Regresar a ordenes</Link>
+                )
+                : 
+                (
+                    <Link to="/admin/orders">&larr; Regresar a ordenes</Link>
+                )}
             </div>
             <br/>
             {order == null ? (
@@ -31,16 +40,21 @@ const OrderDetails = () => {
                     <p>
                         <b>Total de la orden</b> ${order.orderAmount}
                     </p>
-                    {/*<p>
+                    <p>
+                        <b>Número de la mesa</b> {order.table}
+                    </p>
+                    {order.shippingAddress ? (<p>
                         <b>Dirección de envío</b>
                         <br/>
-                        Address: {order.shippingAddress.line1},
-                        {order.shippingAddress.line2}, {order.shippingAddress.city},
+                        Nombre: {order.shippingAddress.name}
                         <br/>
-                        State: {order.shippingAddress.state}
+                        Dirección: {order.shippingAddress.line1},
+                        {order.shippingAddress.line2}
                         <br/>
-                        Country: {order.shippingAddress.country}
-                    </p>*/}
+                        Código Postal: {order.shippingAddress.postal_code}
+                        <br/>
+                        Teléfono: {order.shippingAddress.phone}
+                    </p>): ""}
                     <br/>
                     <table>
                         <thead>
@@ -54,8 +68,9 @@ const OrderDetails = () => {
                         </thead>
                         <tbody>
                             {order.cartItems.map((cart, index) => {
-                                const {id, name, price, imageURL, cartQuantity} = cart
+                                const {id, name, price, imageURL, cartQuantity, desc} = cart
                                 return (
+                                    <>
                                     <tr key={id}>
                                         <td>
                                             <b>{index + 1}</b>
@@ -72,6 +87,18 @@ const OrderDetails = () => {
                                         ${(price * cartQuantity).toFixed(2)}
                                         </td>
                                     </tr>
+                                    {desc.length > 0 && (
+                                        <tr key={`${id}-descriptions`}>
+                                            <td colSpan="6">
+                                                <ul>
+                                                    {desc.map((description, descIndex) => (
+                                                        <li key={`${id}-description-${descIndex}`}><div className={styles.desc}><span>{`${descIndex + 1}.`}</span><p>{description}</p></div></li>
+                                                    ))}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    )}
+                                    </>
                                 )
                             })}
                         </tbody>

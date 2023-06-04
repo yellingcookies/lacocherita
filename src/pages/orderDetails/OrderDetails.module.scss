@@ -38,6 +38,16 @@
         background-color: #eee;
       }
     }
+
+    .desc{
+      width: 500px;
+      p{
+        word-wrap: break-word;
+      }
+    }
+    ul{
+      list-style:none
+    }
     .summary {
       margin-top: 2rem;
       display: flex;

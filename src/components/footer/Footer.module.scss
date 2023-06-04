@@ -1,57 +1,136 @@
+// .footer {
+//     background-color: #6F4E37;
+//     color: #fff;
+//     font-size: 1.6rem;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     // height: 30rem;
+//     margin-top: 10rem;
+//   }
+//   .footer p {
+//     color: #fff;
+//   }/*# sourceMappingURL=Footer.module.css.map */
+  
+  
+//   .footer-row {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: flex-start; /* Alinear los elementos al principio verticalmente */
+//     flex-wrap: wrap; /* Permitir el ajuste de línea para los elementos */
+//   }
+  
+//   .footer-links,
+//   .social-links {
+//     flex-basis: 50%; /* Distribuir el espacio en dos columnas */
+//     margin-bottom: 20px; /* Agregar un margen inferior para separar las secciones */
+//   }
+  
+//   .footer-links ul,
+//   .social-links ul {
+//     margin: 0;
+//     padding: 0;
+//     list-style: none;
+//   }
+  
+//   .footer-links h4,
+//   .social-links h4 {
+//     margin-bottom: 10px;
+//   }
+  
+//   .footer-links li,
+//   .social-links li {
+//     margin-bottom: 5px;
+//   }
+  
+//   .footer-links a,
+//   .social-links a {
+//     color: #fffcfc;
+//     text-decoration: none;
+//   }
+  
+//   .footer-links a:hover,
+//   .social-links a:hover {
+//     color: #faf8f8;
+//   }
+  
 .footer {
-    background-color: #6F4E37;
-    color: #fff;
-    font-size: 1.6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // height: 30rem;
-    margin-top: 10rem;
-  }
-  .footer p {
-    color: #fff;
-  }/*# sourceMappingURL=Footer.module.css.map */
-  
-  
-  .footer-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start; /* Alinear los elementos al principio verticalmente */
-    flex-wrap: wrap; /* Permitir el ajuste de línea para los elementos */
-  }
-  
-  .footer-links,
-  .social-links {
-    flex-basis: 50%; /* Distribuir el espacio en dos columnas */
-    margin-bottom: 20px; /* Agregar un margen inferior para separar las secciones */
-  }
-  
-  .footer-links ul,
-  .social-links ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  
-  .footer-links h4,
-  .social-links h4 {
-    margin-bottom: 10px;
-  }
-  
-  .footer-links li,
-  .social-links li {
-    margin-bottom: 5px;
-  }
-  
-  .footer-links a,
-  .social-links a {
-    color: #fffcfc;
-    text-decoration: none;
-  }
-  
-  .footer-links a:hover,
-  .social-links a:hover {
-    color: #faf8f8;
-  }
-  
-  
+  background-color: #6F4E37;
+  color: #fff;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rem;
+  margin-top: 10rem;
+}
+
+.footercounter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.footercounter h3 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-transform: capitalize;
+  line-height: 3rem;
+  color: white;
+  margin: 0 auto;
+}
+
+.footercounter p {
+  max-width: 500px;
+  margin: 10px auto;
+  line-height: 28px;
+  font-size: 14px;
+  color: white;
+}
+
+.socials {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0 3rem 0;
+}
+
+.socials li {
+  margin: 0 10px;
+}
+
+.socials a {
+  text-decoration: none;
+  color: white;
+}
+
+.socials a i {
+  font-size: 1.1rem;
+  transition: color 0.4s ease;
+}
+
+.socials a:hover i {
+  color: burlywood;
+}
+
+.footer-bottom {
+  background: burlywood;
+  width: 100vw;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 14px;
+  word-spacing: 2px;
+  text-transform: capitalize;
+}
+
+.footer-bottom span {
+  text-transform: uppercase;
+  opacity: 0.4;
+  font-weight: 200;
+} 

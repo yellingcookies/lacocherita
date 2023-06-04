@@ -40,7 +40,6 @@ const ProductDetails = () => {
     }, [document]);
 
     const addToCart = (product) => {
-        console.log(desc)
         //var txtDesc = document.getElementByid("descr")
         //txtDesc.value=""
         //this.descr.value=""
@@ -80,7 +79,9 @@ const ProductDetails = () => {
                                 <p>
                                     <b>Horario</b> {product.brand}
                                 </p>
-                                <input type="text" placeholder="Descripción" name="description" onChange={(e) => handleInputChange(e)} ref={descr}/>
+                                {/* <input type="text" placeholder="Descripción" name="description" onChange={(e) => handleInputChange(e)} ref={descr}/> */}
+                                <label>Detalles:</label><br/>
+                                <textarea required placeholder="Agregue ingredientes o cualquier detalle específico para este alimento" name="description"  cols="30" rows="10" onChange={(e) => handleInputChange(e)} ref={descr}/>
                                 <div className={styles.count}>
                                     {isCartAdded < 0 ? null : (
                                         <>

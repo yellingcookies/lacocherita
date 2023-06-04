@@ -46,8 +46,9 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     
-    const ActualOrders = orders.filter((order) => order.orderStatus === "Order Placed..." && order.userID === userID)
+    const ActualOrders = orders.filter((order) => order.orderStatus === "Orden Realizada..." && order.userID === userID)
     const navigate = useNavigate();
+    
 
     const dispatch = useDispatch();
 
@@ -98,7 +99,7 @@ const Header = () => {
             } else {
                 setIsLoggedIn(false);
                 setdisplayName("");
-                dispatch(REMOVE_ACTIVE_USER());
+                dispatch(REMOVE_ACTIVE_USER(''));
             }
         });
     }, [dispatch, displayName])
@@ -122,14 +123,24 @@ const Header = () => {
     
     const orderverification = () => {
         if(ActualOrders.length>0){
-            const a = orders[0].id
+            var i = 0
+            // for(var i=0; i===orders.length; i++){
+            //     if(orders[i].orderStatus === "Orden Realizada..."){
+            //         num=i
+            //         i=orders.length
+            //     }
+            // }
+            while(orders[i].orderStatus !== "Orden Realizada..."){
+                i++
+            }
+            const a = orders[i].id
             navigate(`/cart/${a}`)
         }
     }
 
     const cart = ( 
         <span className={styles.cart} onClick={orderverification}>
-                <Link to="/cart/ADD">Cart
+                <Link to="/cart/ADD">
                 <FaShoppingCart size={20}/> 
                 <p>{cartTotalQuantity}</p>
                 </Link>

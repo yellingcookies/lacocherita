@@ -37,7 +37,6 @@ const AddProducts = () => {
             productEdit)
             return newState
     })
-  
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();

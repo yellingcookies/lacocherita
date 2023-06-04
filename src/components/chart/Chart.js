@@ -50,7 +50,7 @@ const Chart = () => {
         return arr.filter((n) => n === value).length
     }
     
-    const [q1, q2, q3, q4] = ["Order Placed...", "Processing...", "Shipped...", "Delivered"]
+    const [q1, q2, q3, q4] = ["Orden Realizada...", "Pedida a Domicilio...", "Rechazada", "Entregada"]
     const placed = getOrderCount(array, q1)
     const processing = getOrderCount(array, q2)
     const shipped = getOrderCount(array, q3)
@@ -59,7 +59,7 @@ const Chart = () => {
 
 
     const data = {
-        labels: ["Orden Realizada", "Procesando", "Enviada", "Entregada"],
+        labels: ["Orden Realizada", "Pedida a Domicilio", "Rechazada", "Entregada"],
         datasets: [
           {
             label: 'Cantidad de pedidos',

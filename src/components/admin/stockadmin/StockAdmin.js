@@ -9,15 +9,17 @@ import Loader from "../../loader/Loader";
 import styles from "./StockAdmin.module.css";
 import Notiflix from "notiflix";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProducts, STORE_INGREDIENTS, STORE_PRODUCTS } from "../../../redux/slice/productSlice";
+import { selectProducts, STORE_PRODUCTS } from "../../../redux/slice/productSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
 import { FILTER_BY_SEARCH, selectFilteredProducts } from "../../../redux/slice/filterSlice";
 import Search from "../../search/Search";
 import Pagination from "../../pagination/Pagination";
+import { STORE_INGREDIENTS } from "../../../redux/slice/ingredientsSlice";
 
 const StockAdmin = () => {
-    const  [search, setSearch] = useState("")
+    // const  [search, setSearch] = useState("")
     const {data, isLoading} = useFetchCollection("ingredientes");
+    console.log(data)
 
     const dispatch = useDispatch();
 

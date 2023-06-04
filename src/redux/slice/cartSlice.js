@@ -19,15 +19,15 @@ const cartSlice = createSlice({
                 //Item already exists in the cart
                 //Increase the cartQuantity
                 state.cartItems[productIndex].cartQuantity += 1
-                state.cartItems[productIndex].desc = desc
-                //toast.info(`${action.payload.name} increased by one`, {position: "top-left"})
-                toast.info(`${product.name} increased by one`, {position: "top-left"})
+                state.cartItems[productIndex].desc.push(desc)
+                // state.cartItems[productIndex].desc = desc
+                toast.info(`${product.name} Se incrementó en uno`, {position: "top-left"})
             }else {
                 //Item doesn't already exists in the cart
                 //Add item to the cart
-                const tempProduct = {...product, cartQuantity: 1, desc}
+                const tempProduct = {...product, cartQuantity: 1, desc: [desc]}
                 state.cartItems.push(tempProduct)
-                toast.success(`${product.name} added to cart`, {
+                toast.success(`${product.name} Agregado al carrito`, {
                     position: "top-left",
                 })
             }
@@ -39,11 +39,11 @@ const cartSlice = createSlice({
 
             if(state.cartItems[productIndex].cartQuantity > 1){
                 state.cartItems[productIndex].cartQuantity -= 1
-                toast.info(`${action.payload.name} decreased by one`, {position: "top-left"})
+                toast.info(`${action.payload.name} reducido en uno`, {position: "top-left"})
             }else if(state.cartItems[productIndex].cartQuantity === 1){
                 const newCartItem = state.cartItems.filter((item) => item.id !== action.payload.id)
                 state.cartItems = newCartItem
-                toast.success(`${action.payload.name} removed from cart`, {
+                toast.success(`${action.payload.name} removido del carrito`, {
                     position: "top-left",});
             }
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
@@ -51,13 +51,13 @@ const cartSlice = createSlice({
         REMOVE_FROM_CART(state, action){
             const newCartItem = state.cartItems.filter((item) => item.id !== action.payload.id)
             state.cartItems = newCartItem
-            toast.success(`${action.payload.name} removed from cart`, {
+            toast.success(`${action.payload.name} removido del carrito`, {
                     position: "top-left",});
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
         CLEAR_CART(state, action){
             state.cartItems = []
-            toast.info(`Cart cleared`, {
+            toast.info(`Carrito borrado`, {
                 position: "top-left",});
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
